@@ -1,0 +1,4 @@
+*.pth
+/datasets/
+*.json
+*.pyc
