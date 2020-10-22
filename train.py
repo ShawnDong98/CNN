@@ -32,18 +32,40 @@ class trainer_LeNet():
         # 初始化数据集
         #--------------------------------------
         self.trans = transforms.ToTensor()
-        self.trainset = datasets.CIFAR10(
+
+        # MNIST
+        # self.trainset = datasets.MNIST(
+        #     root = config.img_path,
+        #     train=True,
+        #     download=True,
+        #     transform=self.trans
+        # )
+        self.trainset = datasets.MNIST(
             root = config.img_path,
             train=True,
             download=True,
             transform=self.trans
         )
-        self.testset = datasets.CIFAR10(
+
+
+
+        # MNIST
+        # self.testset = datasets.MNIST(
+        #     root = config.img_path,
+        #     train=False,
+        #     download=True,
+        #     transform=self.trans
+        # )
+
+        # MNIST
+        self.testset = datasets.MNIST(
             root = config.img_path,
             train=False,
             download=True,
             transform=self.trans
         )
+
+        
         self.train_loader = DataLoader(
             self.trainset, 
             batch_size=config.batch_size,
@@ -61,12 +83,18 @@ class trainer_LeNet():
     def net_init(self):
         try:
             self.net = LeNet().to(device)
-            self.net.load_state_dict(torch.load("./saved_models/LeNet/latest_net.pth"))
+            self.net.load_state_dict(torch.load("./saved_models/LeNet/bs100_lr004_LeNet_MNIST.pth"))
+            self.state = torch.load("./saved_models/LeNet/bs100_lr004_LeNet_MNIST_State.pth")
             print("model loaded...")
 
         except:
             print("No pretrained model...")
             self.net = LeNet().to(device)
+            self.state = {
+                "epoch": 0,
+                "total_loss": [],
+                "test_accuracy": []
+            }
         
 
         self.criterion = nn.CrossEntropyLoss()
@@ -74,11 +102,10 @@ class trainer_LeNet():
         self.optimizer = optim.SGD(self.net.parameters(), lr=0.004)
 
     def train(self):
-        pbar = tqdm(range(self.config.epochs))
+        pbar = tqdm(range(self.state["epoch"], self.config.epochs))
         for i in pbar:
             self.net.train()
             loss_sum = 0.0
-            time.sleep(0.1)
             pbar.set_description(f"Now the epoch is {i}")
             for num, (data, label) in enumerate(self.train_loader):
                 # print(data)
@@ -95,11 +122,14 @@ class trainer_LeNet():
                 loss.backward()
                 self.optimizer.step()
                 # print(f"loss: {loss}")
+            self.state["total_loss"].append(loss_sum)
             print(f"epoch: {i}, loss:{loss_sum}")
             accuracy = self.test()
+            self.state["test_accuracy"].append(accuracy)
             print(f"test accuracy: {accuracy}%")
-            # torch.save(self.net.state_dict(), './saved_models/LeNet/latest_net.pth')
-            torch.save(self.net.state_dict(), './saved_models/LeNet/latest_net_CIFAR10.pth')
+            torch.save(self.net.state_dict(), './saved_models/LeNet/bs100_lr004_LeNet_MNIST.pth')
+            self.state['epoch'] = i
+            torch.save(self.state, './saved_models/LeNet/bs100_lr004_LeNet_MNIST_State.pth')
 
 
     def test(self):
@@ -132,13 +162,13 @@ class trainer_Linear():
         # 初始化数据集
         #--------------------------------------
         self.trans = transforms.ToTensor()
-        self.trainset = datasets.CIFAR10(
+        self.trainset = datasets.MNIST(
             root = config.img_path,
             train=True,
             download=True,
             transform=self.trans
         )
-        self.testset = datasets.CIFAR10(
+        self.testset = datasets.MNIST(
             root = config.img_path,
             train=False,
             download=True,
@@ -161,12 +191,18 @@ class trainer_Linear():
     def net_init(self):
         try:
             self.net = LeNet_Linear().to(device)
-            self.net.load_state_dict(torch.load("./saved_models/LeNet/latest_Linear.pth"))
+            self.net.load_state_dict(torch.load("./saved_models/LeNet/bs100_lr004_Linear_MNIST.pth"))
+            self.state = torch.load("./saved_models/LeNet/bs100_lr004_Linear_MNIST_State.pth")
             print("model loaded...")
 
         except:
             print("No pretrained model...")
             self.net = LeNet_Linear().to(device)
+            self.state = {
+                "epoch": 0,
+                "total_loss": [],
+                "test_accuracy": []
+            }
         
 
         self.criterion = nn.CrossEntropyLoss()
@@ -174,11 +210,10 @@ class trainer_Linear():
         self.optimizer = optim.SGD(self.net.parameters(), lr=0.004)
 
     def train(self):
-        pbar = tqdm(range(self.config.epochs))
+        pbar = tqdm(range(self.state["epoch"], self.config.epochs))
         for i in pbar:
             self.net.train()
             loss_sum = 0.0
-            time.sleep(0.1)
             pbar.set_description(f"Now the epoch is {i}")
             for num, (data, label) in enumerate(self.train_loader):
                 # print(data.shape)
@@ -195,11 +230,14 @@ class trainer_Linear():
                 loss.backward()
                 self.optimizer.step()
                 # print(f"loss: {loss}")
+            self.state["total_loss"].append(loss_sum)
             print(f"epoch: {i}, loss:{loss_sum}")
             accuracy = self.test()
+            self.state["test_accuracy"].append(accuracy)
             print(f"test accuracy: {accuracy}%")
-            # torch.save(self.net.state_dict(), './saved_models/LeNet/latest_Linear.pth')
-            torch.save(self.net.state_dict(), './saved_models/LeNet/latest_Linear_CIFAR10.pth')
+            torch.save(self.net.state_dict(), './saved_models/LeNet/bs100_lr004_Linear_MNIST.pth')
+            self.state['epoch'] = i
+            torch.save(self.state, './saved_models/LeNet/bs100_lr004_Linear_MNIST_State.pth')
 
 
     def test(self):
@@ -229,12 +267,12 @@ class trainer_Linear():
 
 def get_config():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', type=int, default=5)
+    parser.add_argument('--batch_size', type=int, default=100)
     # 没用到
     parser.add_argument('--img_size', type=int, default=256)
     # 没用到
     parser.add_argument('--total_iter', type=int, default=500000)
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=50)
 
     parser.add_argument('--img_path', type=str, default='./datasets')
 
@@ -253,7 +291,7 @@ if __name__ == "__main__":
     print(config.img_path)
     # trainer = trainer_Linear(config)
     trainer = trainer_LeNet(config)
-    trainer.train()
+    trainer.train() 
 
 
     
