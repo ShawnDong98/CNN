@@ -34,12 +34,6 @@ class trainer_LeNet():
         self.trans = transforms.ToTensor()
 
         # MNIST
-        # self.trainset = datasets.MNIST(
-        #     root = config.img_path,
-        #     train=True,
-        #     download=True,
-        #     transform=self.trans
-        # )
         self.trainset = datasets.MNIST(
             root = config.img_path,
             train=True,
@@ -47,15 +41,15 @@ class trainer_LeNet():
             transform=self.trans
         )
 
-
-
-        # MNIST
-        # self.testset = datasets.MNIST(
+        # CIFAR10
+        # self.trainset = datasets.CIFAR10(
         #     root = config.img_path,
-        #     train=False,
+        #     train=True,
         #     download=True,
         #     transform=self.trans
         # )
+
+       
 
         # MNIST
         self.testset = datasets.MNIST(
@@ -64,6 +58,14 @@ class trainer_LeNet():
             download=True,
             transform=self.trans
         )
+
+        # CIFAR10
+        # self.testset = datasets.CIFAR10(
+        #     root = config.img_path,
+        #     train=False,
+        #     download=True,
+        #     transform=self.trans
+        # )
 
         
         self.train_loader = DataLoader(
@@ -162,18 +164,39 @@ class trainer_Linear():
         # 初始化数据集
         #--------------------------------------
         self.trans = transforms.ToTensor()
+
+        # MNIST
         self.trainset = datasets.MNIST(
             root = config.img_path,
             train=True,
             download=True,
             transform=self.trans
         )
+
+        # CIFAR10
+        # self.trainset = datasets.CIFAR10(
+        #     root = config.img_path,
+        #     train=True,
+        #     download=True,
+        #     transform=self.trans
+        # )
+
+        #MNIST
         self.testset = datasets.MNIST(
             root = config.img_path,
             train=False,
             download=True,
             transform=self.trans
         )
+
+        # CIFAR10
+        # self.testset = datasets.CIFAR10(
+        #     root = config.img_path,
+        #     train=False,
+        #     download=True,
+        #     transform=self.trans
+        # )
+
         self.train_loader = DataLoader(
             self.trainset, 
             batch_size=config.batch_size,
