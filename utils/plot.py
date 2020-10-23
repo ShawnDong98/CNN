@@ -27,435 +27,136 @@ def get_config():
 config = get_config()
 
 
-# trainset = datasets.CIFAR10(
-#             root = config.img_path,
-#             train=True,
-#             download=True,
-#         )
+def SameBS(bs, model):
 
-
-# state_bs5_lr0004_Linear = torch.load("../saved_models/LeNet/bs5_lr0004_Linear_CIFAR10_State.pth")
-# state_bs20_lr0004_Linear = torch.load("../saved_models/LeNet/bs20_lr0004_Linear_CIFAR10_State.pth")
-# state_bs50_lr0004_Linear = torch.load("../saved_models/LeNet/bs50_lr0004_Linear_CIFAR10_State.pth")
-# state_bs100_lr0004_Linear = torch.load("../saved_models/LeNet/bs100_lr0004_Linear_CIFAR10_State.pth")
-
-# loss_bs5_lr0004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr0004_Linear['total_loss']]
-# loss_bs20_lr0004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr0004_Linear['total_loss']]
-# loss_bs50_lr0004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr0004_Linear['total_loss']]
-# loss_bs100_lr0004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr0004_Linear['total_loss']]
-
-
-
-# accuracy_bs5_lr0004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs5_lr0004_Linear['test_accuracy']]
-# accuracy_bs20_lr0004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs20_lr0004_Linear['test_accuracy']]
-# accuracy_bs50_lr0004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs50_lr0004_Linear['test_accuracy']]
-# accuracy_bs100_lr0004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs100_lr0004_Linear['test_accuracy']]
-
-
-
-# x_bs5_lr0004_Linear = range(0, len(loss_bs5_lr0004_Linear))
-# x_bs20_lr0004_Linear = range(0, len(loss_bs20_lr0004_Linear))
-# x_bs50_lr0004_Linear = range(0, len(loss_bs50_lr0004_Linear))
-# x_bs100_lr0004_Linear = range(0, len(loss_bs100_lr0004_Linear))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr0004_Linear, loss_bs5_lr0004_Linear, label="loss")
-# ax1.plot(x_bs5_lr0004_Linear, accuracy_bs5_lr0004_Linear, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.0004")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr0004_Linear, loss_bs20_lr0004_Linear, label="loss")
-# ax2.plot(x_bs20_lr0004_Linear, accuracy_bs20_lr0004_Linear, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.0004")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr0004_Linear, loss_bs50_lr0004_Linear, label="loss")
-# ax3.plot(x_bs50_lr0004_Linear, accuracy_bs50_lr0004_Linear, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.0004")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr0004_Linear, loss_bs100_lr0004_Linear, label="loss")
-# ax4.plot(x_bs100_lr0004_Linear, accuracy_bs100_lr0004_Linear, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.0004")
-
-# plt.suptitle("Linear model")
-# plt.savefig("../plots/LeNet/losses/Linear.jpg")
-# plt.show()
-
-# state_bs5_lr0004_LeNet = torch.load("../saved_models/LeNet/bs5_lr0004_LeNet_CIFAR10_State.pth")
-# state_bs20_lr0004_LeNet = torch.load("../saved_models/LeNet/bs20_lr0004_LeNet_CIFAR10_State.pth")
-# state_bs50_lr0004_LeNet = torch.load("../saved_models/LeNet/bs50_lr0004_LeNet_CIFAR10_State.pth")
-# state_bs100_lr0004_LeNet = torch.load("../saved_models/LeNet/bs100_lr0004_LeNet_CIFAR10_State.pth")
-
-# loss_bs5_lr0004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr0004_LeNet['total_loss']]
-# loss_bs20_lr0004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr0004_LeNet['total_loss']]
-# loss_bs50_lr0004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr0004_LeNet['total_loss']]
-# loss_bs100_lr0004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr0004_LeNet['total_loss']]
-
-
-
-# accuracy_bs5_lr0004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs5_lr0004_LeNet['test_accuracy']]
-# accuracy_bs20_lr0004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs20_lr0004_LeNet['test_accuracy']]
-# accuracy_bs50_lr0004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs50_lr0004_LeNet['test_accuracy']]
-# accuracy_bs100_lr0004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs100_lr0004_LeNet['test_accuracy']]
-
-
-
-# x_bs5_lr0004_LeNet = range(0, len(loss_bs5_lr0004_LeNet))
-# x_bs20_lr0004_LeNet = range(0, len(loss_bs20_lr0004_LeNet))
-# x_bs50_lr0004_LeNet = range(0, len(loss_bs50_lr0004_LeNet))
-# x_bs100_lr0004_LeNet = range(0, len(loss_bs100_lr0004_LeNet))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr0004_LeNet, loss_bs5_lr0004_LeNet, label="loss")
-# ax1.plot(x_bs5_lr0004_LeNet, accuracy_bs5_lr0004_LeNet, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.0004")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr0004_LeNet, loss_bs20_lr0004_LeNet, label="loss")
-# ax2.plot(x_bs20_lr0004_LeNet, accuracy_bs20_lr0004_LeNet, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.0004")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr0004_LeNet, loss_bs50_lr0004_LeNet, label="loss")
-# ax3.plot(x_bs50_lr0004_LeNet, accuracy_bs50_lr0004_LeNet, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.0004")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr0004_LeNet, loss_bs100_lr0004_LeNet, label="loss")
-# ax4.plot(x_bs100_lr0004_LeNet, accuracy_bs100_lr0004_LeNet, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.0004")
-
-# plt.suptitle("LeNet model")
-# plt.savefig("../plots/LeNet/losses/LeNet.jpg")
-# plt.show()
-
-
-# state_bs5_lr004_LeNet = torch.load("../saved_models/LeNet/bs5_lr004_LeNet_CIFAR10_State.pth")
-# state_bs20_lr004_LeNet = torch.load("../saved_models/LeNet/bs20_lr004_LeNet_CIFAR10_State.pth")
-# state_bs50_lr004_LeNet = torch.load("../saved_models/LeNet/bs50_lr004_LeNet_CIFAR10_State.pth")
-# state_bs100_lr004_LeNet = torch.load("../saved_models/LeNet/bs100_lr004_LeNet_CIFAR10_State.pth")
-
-# loss_bs5_lr004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr004_LeNet['total_loss']]
-# loss_bs20_lr004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr004_LeNet['total_loss']]
-# loss_bs50_lr004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr004_LeNet['total_loss']]
-# loss_bs100_lr004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr004_LeNet['total_loss']]
-
-
-
-# accuracy_bs5_lr004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs5_lr004_LeNet['test_accuracy']]
-# accuracy_bs20_lr004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs20_lr004_LeNet['test_accuracy']]
-# accuracy_bs50_lr004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs50_lr004_LeNet['test_accuracy']]
-# accuracy_bs100_lr004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs100_lr004_LeNet['test_accuracy']]
-
-
-
-# x_bs5_lr004_LeNet = range(0, len(loss_bs5_lr004_LeNet))
-# x_bs20_lr004_LeNet = range(0, len(loss_bs20_lr004_LeNet))
-# x_bs50_lr004_LeNet = range(0, len(loss_bs50_lr004_LeNet))
-# x_bs100_lr004_LeNet = range(0, len(loss_bs100_lr004_LeNet))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr004_LeNet, loss_bs5_lr004_LeNet, label="loss")
-# ax1.plot(x_bs5_lr004_LeNet, accuracy_bs5_lr004_LeNet, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.004")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr004_LeNet, loss_bs20_lr004_LeNet, label="loss")
-# ax2.plot(x_bs20_lr004_LeNet, accuracy_bs20_lr004_LeNet, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.004")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr004_LeNet, loss_bs50_lr004_LeNet, label="loss")
-# ax3.plot(x_bs50_lr004_LeNet, accuracy_bs50_lr004_LeNet, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.004")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr004_LeNet, loss_bs100_lr004_LeNet, label="loss")
-# ax4.plot(x_bs100_lr004_LeNet, accuracy_bs100_lr004_LeNet, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.004")
-
-# plt.suptitle("LeNet model")
-# plt.savefig("../plots/LeNet/losses/LeNet.jpg")
-# plt.show()
-
-
-
-
-# state_bs5_lr004_Linear = torch.load("../saved_models/LeNet/bs5_lr004_Linear_CIFAR10_State.pth")
-# state_bs20_lr004_Linear = torch.load("../saved_models/LeNet/bs20_lr004_Linear_CIFAR10_State.pth")
-# state_bs50_lr004_Linear = torch.load("../saved_models/LeNet/bs50_lr004_Linear_CIFAR10_State.pth")
-# state_bs100_lr004_Linear = torch.load("../saved_models/LeNet/bs100_lr004_Linear_CIFAR10_State.pth")
-
-# loss_bs5_lr004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr004_Linear['total_loss']]
-# loss_bs20_lr004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr004_Linear['total_loss']]
-# loss_bs50_lr004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr004_Linear['total_loss']]
-# loss_bs100_lr004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr004_Linear['total_loss']]
-
-
-
-# accuracy_bs5_lr004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs5_lr004_Linear['test_accuracy']]
-# accuracy_bs20_lr004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs20_lr004_Linear['test_accuracy']]
-# accuracy_bs50_lr004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs50_lr004_Linear['test_accuracy']]
-# accuracy_bs100_lr004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs100_lr004_Linear['test_accuracy']]
-
-
-
-# x_bs5_lr004_Linear = range(0, len(loss_bs5_lr004_Linear))
-# x_bs20_lr004_Linear = range(0, len(loss_bs20_lr004_Linear))
-# x_bs50_lr004_Linear = range(0, len(loss_bs50_lr004_Linear))
-# x_bs100_lr004_Linear = range(0, len(loss_bs100_lr004_Linear))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr004_Linear, loss_bs5_lr004_Linear, label="loss")
-# ax1.plot(x_bs5_lr004_Linear, accuracy_bs5_lr004_Linear, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.004")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr004_Linear, loss_bs20_lr004_Linear, label="loss")
-# ax2.plot(x_bs20_lr004_Linear, accuracy_bs20_lr004_Linear, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.004")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr004_Linear, loss_bs50_lr004_Linear, label="loss")
-# ax3.plot(x_bs50_lr004_Linear, accuracy_bs50_lr004_Linear, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.004")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr004_Linear, loss_bs100_lr004_Linear, label="loss")
-# ax4.plot(x_bs100_lr004_Linear, accuracy_bs100_lr004_Linear, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.004")
-
-# plt.suptitle("Linear model")
-# plt.savefig("../plots/LeNet/losses/Linear.jpg")
-# plt.show()
-
-
-# state_bs5_lr04_Linear = torch.load("../saved_models/LeNet/bs5_lr04_Linear_CIFAR10_State.pth")
-# state_bs20_lr04_Linear = torch.load("../saved_models/LeNet/bs20_lr04_Linear_CIFAR10_State.pth")
-# state_bs50_lr04_Linear = torch.load("../saved_models/LeNet/bs50_lr04_Linear_CIFAR10_State.pth")
-# state_bs100_lr04_Linear = torch.load("../saved_models/LeNet/bs100_lr04_Linear_CIFAR10_State.pth")
-
-# loss_bs5_lr04_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr04_Linear['total_loss']]
-# loss_bs20_lr04_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr04_Linear['total_loss']]
-# loss_bs50_lr04_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr04_Linear['total_loss']]
-# loss_bs100_lr04_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr04_Linear['total_loss']]
-
-
-
-# accuracy_bs5_lr04_Linear = [x.cpu().detach().numpy()/100 for x in state_bs5_lr04_Linear['test_accuracy']]
-# accuracy_bs20_lr04_Linear = [x.cpu().detach().numpy()/100 for x in state_bs20_lr04_Linear['test_accuracy']]
-# accuracy_bs50_lr04_Linear = [x.cpu().detach().numpy()/100 for x in state_bs50_lr04_Linear['test_accuracy']]
-# accuracy_bs100_lr04_Linear = [x.cpu().detach().numpy()/100 for x in state_bs100_lr04_Linear['test_accuracy']]
-
-
-
-# x_bs5_lr04_Linear = range(0, len(loss_bs5_lr04_Linear))
-# x_bs20_lr04_Linear = range(0, len(loss_bs20_lr04_Linear))
-# x_bs50_lr04_Linear = range(0, len(loss_bs50_lr04_Linear))
-# x_bs100_lr04_Linear = range(0, len(loss_bs100_lr04_Linear))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr04_Linear, loss_bs5_lr04_Linear, label="loss")
-# ax1.plot(x_bs5_lr04_Linear, accuracy_bs5_lr04_Linear, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.04")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr04_Linear, loss_bs20_lr04_Linear, label="loss")
-# ax2.plot(x_bs20_lr04_Linear, accuracy_bs20_lr04_Linear, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.04")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr04_Linear, loss_bs50_lr04_Linear, label="loss")
-# ax3.plot(x_bs50_lr04_Linear, accuracy_bs50_lr04_Linear, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.04")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr04_Linear, loss_bs100_lr04_Linear, label="loss")
-# ax4.plot(x_bs100_lr04_Linear, accuracy_bs100_lr04_Linear, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.04")
-
-# plt.suptitle("Linear model")
-# plt.savefig("../plots/LeNet/losses/Linear.jpg")
-# plt.show()
-
-
-# state_bs5_lr04_LeNet = torch.load("../saved_models/LeNet/bs5_lr04_LeNet_CIFAR10_State.pth")
-# state_bs20_lr04_LeNet = torch.load("../saved_models/LeNet/bs20_lr04_LeNet_CIFAR10_State.pth")
-# state_bs50_lr04_LeNet = torch.load("../saved_models/LeNet/bs50_lr04_LeNet_CIFAR10_State.pth")
-# state_bs100_lr04_LeNet = torch.load("../saved_models/LeNet/bs100_lr04_LeNet_CIFAR10_State.pth")
-
-# loss_bs5_lr04_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs5_lr04_LeNet['total_loss']]
-# loss_bs20_lr04_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs20_lr04_LeNet['total_loss']]
-# loss_bs50_lr04_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs50_lr04_LeNet['total_loss']]
-# loss_bs100_lr04_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr04_LeNet['total_loss']]
-
-
-
-# accuracy_bs5_lr04_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs5_lr04_LeNet['test_accuracy']]
-# accuracy_bs20_lr04_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs20_lr04_LeNet['test_accuracy']]
-# accuracy_bs50_lr04_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs50_lr04_LeNet['test_accuracy']]
-# accuracy_bs100_lr04_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs100_lr04_LeNet['test_accuracy']]
-
-
-
-# x_bs5_lr04_LeNet = range(0, len(loss_bs5_lr04_LeNet))
-# x_bs20_lr04_LeNet = range(0, len(loss_bs20_lr04_LeNet))
-# x_bs50_lr04_LeNet = range(0, len(loss_bs50_lr04_LeNet))
-# x_bs100_lr04_LeNet = range(0, len(loss_bs100_lr04_LeNet))
-
-
-
-# plt.figure(figsize=(20, 10))
-
-# ax1 = plt.subplot(141)
-# ax1.set_ylim(0, 1)
-# ax1.plot(x_bs5_lr04_LeNet, loss_bs5_lr04_LeNet, label="loss")
-# ax1.plot(x_bs5_lr04_LeNet, accuracy_bs5_lr04_LeNet, label="accuracy")
-# ax1.legend()
-# ax1.set_title("bs=5 lr=0.04")
-
-
-# ax2 = plt.subplot(142)
-# ax2.set_ylim(0, 1)
-# ax2.plot(x_bs20_lr04_LeNet, loss_bs20_lr04_LeNet, label="loss")
-# ax2.plot(x_bs20_lr04_LeNet, accuracy_bs20_lr04_LeNet, label="accuracy")
-# ax2.legend()
-# ax2.set_title("bs=20 lr=0.04")
-
-
-# ax3 = plt.subplot(143)
-# ax3.set_ylim(0, 1)
-# ax3.plot(x_bs50_lr04_LeNet, loss_bs50_lr04_LeNet, label="loss")
-# ax3.plot(x_bs50_lr04_LeNet, accuracy_bs50_lr04_LeNet, label="accuracy")
-# ax3.legend()
-# ax3.set_title("bs=50 lr=0.04")
-
-
-# ax4 = plt.subplot(144)
-# ax4.set_ylim(0, 1)
-# ax4.plot(x_bs100_lr04_LeNet, loss_bs100_lr04_LeNet, label="loss")
-# ax4.plot(x_bs100_lr04_LeNet, accuracy_bs100_lr04_LeNet, label="accuracy")
-# ax4.legend()
-# ax4.set_title("bs=100 lr=0.04")
-
-# plt.suptitle("LeNet model")
-# plt.savefig("../plots/LeNet/losses/LeNet.jpg")
-# plt.show()
-
-
-trainset = datasets.MNIST(
+    trainset = datasets.CIFAR10(
             root = config.img_path,
             train=True,
             download=True,
-        )
-
-state_bs100_lr004_LeNet = torch.load("../saved_models/LeNet/bs100_lr004_LeNet_MNIST_State.pth")
-state_bs100_lr004_Linear = torch.load("../saved_models/LeNet/bs100_lr004_Linear_MNIST_State.pth")
-
-loss_bs100_lr004_LeNet = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr004_LeNet['total_loss']]
-loss_bs100_lr004_Linear = [x.cpu().detach().numpy()/len(trainset) for x in state_bs100_lr004_Linear['total_loss']]
+    )
 
 
-accuracy_bs100_lr004_LeNet = [x.cpu().detach().numpy()/100 for x in state_bs100_lr004_LeNet['test_accuracy']]
-accuracy_bs100_lr004_Linear = [x.cpu().detach().numpy()/100 for x in state_bs100_lr004_Linear['test_accuracy']]
+    state1 = torch.load("../saved_models/LeNet/bs" +str(bs) + "_lr0004_Linear_CIFAR10_State.pth")
+    state2 = torch.load("../saved_models/LeNet/bs" +str(bs) + "_lr004_Linear_CIFAR10_State.pth")
+    state3 = torch.load("../saved_models/LeNet/bs" +str(bs) + "_lr04_Linear_CIFAR10_State.pth")
+
+    loss1 = [x.cpu().detach().numpy()/len(trainset) for x in state1['total_loss']]
+    loss2 = [x.cpu().detach().numpy()/len(trainset) for x in state2['total_loss']]
+    loss3 = [x.cpu().detach().numpy()/len(trainset) for x in state3['total_loss']]
+
+    accuracy1 = [x.cpu().detach().numpy()/100 for x in state1['test_accuracy']]
+    accuracy2 = [x.cpu().detach().numpy()/100 for x in state2['test_accuracy']]
+    accuracy3 = [x.cpu().detach().numpy()/100 for x in state3['test_accuracy']]
+
+    x1 = range(0, len(loss1))
+    x2 = range(0, len(loss2))
+    x3 = range(0, len(loss3))
+
+    plt.figure(figsize=(20, 10))
+
+    ax1 = plt.subplot(131)
+    ax1.set_ylim(0, 1)
+    ax1.plot(x1, loss1, label="loss")
+    ax1.plot(x1, accuracy1, label="accuracy")
+    ax1.legend()
+    ax1.set_title(f"bs={bs} lr=0004")
 
 
-x_bs100_lr004_LeNet = range(0, len(loss_bs100_lr004_LeNet))
-x_bs100_lr004_Linear = range(0, len(loss_bs100_lr004_Linear))
-
-plt.figure(figsize=(20, 10))
-
-ax1 = plt.subplot(121)
-ax1.set_ylim(0, 1)
-ax1.plot(x_bs100_lr004_LeNet, loss_bs100_lr004_LeNet, label="loss")
-ax1.plot(x_bs100_lr004_LeNet, accuracy_bs100_lr004_LeNet, label="accuracy")
-ax1.legend()
-ax1.set_title("LeNet model")
+    ax2 = plt.subplot(132)
+    ax2.set_ylim(0, 1)
+    ax2.plot(x2, loss2, label="loss")
+    ax2.plot(x2, accuracy2, label="accuracy")
+    ax2.legend()
+    ax2.set_title(f"bs={bs} lr=004")
 
 
-ax2 = plt.subplot(122)
-ax2.set_ylim(0, 1)
-ax2.plot(x_bs100_lr004_LeNet, loss_bs100_lr004_Linear, label="loss")
-ax2.plot(x_bs100_lr004_LeNet, accuracy_bs100_lr004_Linear, label="accuracy")
-ax2.legend()
-ax2.set_title("Linear model")
+    ax3 = plt.subplot(133)
+    ax3.set_ylim(0, 1)
+    ax3.plot(x3, loss3, label="loss")
+    ax3.plot(x3, accuracy3, label="accuracy")
+    ax3.legend()
+    ax3.set_title(f"bs={bs} lr=04")
 
-plt.savefig("../plots/LeNet/losses/MNIST.jpg")
-plt.show()
+    plt.suptitle(f"{model} model")
+    # plt.savefig("../plots/LeNet/losses/Linear.jpg")
+    plt.show()
 
+
+
+
+
+
+
+def SameLR(lr, model):
+
+    trainset = datasets.CIFAR10(
+            root = config.img_path,
+            train=True,
+            download=True,
+    )
+
+    state1 = torch.load("../saved_models/LeNet/bs5_lr" + lr +"_" + model + "_CIFAR10_State.pth")
+    state2 = torch.load("../saved_models/LeNet/bs20_lr" + lr +"_" + model + "_CIFAR10_State.pth")
+    state3 = torch.load("../saved_models/LeNet/bs50_lr" + lr +"_" + model + "_CIFAR10_State.pth")
+    state4 = torch.load("../saved_models/LeNet/bs100_lr" + lr +"_" + model + "_CIFAR10_State.pth")
+
+    loss1 = [x.cpu().detach().numpy()/len(trainset) for x in state1['total_loss']]
+    loss2 = [x.cpu().detach().numpy()/len(trainset) for x in state2['total_loss']]
+    loss3 = [x.cpu().detach().numpy()/len(trainset) for x in state3['total_loss']]
+    loss4 = [x.cpu().detach().numpy()/len(trainset) for x in state4['total_loss']]
+
+    accuracy1 = [x.cpu().detach().numpy()/100 for x in state1['test_accuracy']]
+    accuracy2 = [x.cpu().detach().numpy()/100 for x in state2['test_accuracy']]
+    accuracy3 = [x.cpu().detach().numpy()/100 for x in state3['test_accuracy']]
+    accuracy4 = [x.cpu().detach().numpy()/100 for x in state4['test_accuracy']]
+
+    x1 = range(0, len(loss1))
+    x2 = range(0, len(loss2))
+    x3 = range(0, len(loss3))
+    x4 = range(0, len(loss4))
+
+    plt.figure(figsize=(20, 10))
+
+    ax1 = plt.subplot(141)
+    ax1.set_ylim(0, 1)
+    ax1.plot(x1, loss1, label="loss")
+    ax1.plot(x1, accuracy1, label="accuracy")
+    ax1.legend()
+    ax1.set_title(f"bs=5 lr={lr}")
+
+
+    ax2 = plt.subplot(142)
+    ax2.set_ylim(0, 1)
+    ax2.plot(x2, loss2, label="loss")
+    ax2.plot(x2, accuracy2, label="accuracy")
+    ax2.legend()
+    ax2.set_title(f"bs=20 lr={lr}")
+
+
+    ax3 = plt.subplot(143)
+    ax3.set_ylim(0, 1)
+    ax3.plot(x3, loss3, label="loss")
+    ax3.plot(x3, accuracy3, label="accuracy")
+    ax3.legend()
+    ax3.set_title(f"bs=50 lr={lr}")
+
+
+    ax4 = plt.subplot(144)
+    ax4.set_ylim(0, 1)
+    ax4.plot(x4, loss4, label="loss")
+    ax4.plot(x4, accuracy4, label="accuracy")
+    ax4.legend()
+    ax4.set_title(f"bs=100 lr={lr}")
+
+    plt.suptitle(f"{model} model")
+    # plt.savefig("../plots/LeNet/losses/Linear.jpg")
+    plt.show()
+
+
+
+if __name__ == "__main__":
+    lr = "0004"
+    bs = 100
+    model = "Linear"
+    # SameLR(lr, model)
+    SameBS(bs, model)
