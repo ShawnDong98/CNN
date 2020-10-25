@@ -74,11 +74,11 @@ class get_features():
         data, label = next(loader)
         data = data.to(device)
 
-        print(data.shape)
-        print(label)
+        # print(data.shape)
+        # print(label)
 
         img = tensor_to_PIL(data)
-        print(type(img))
+        # print(type(img))
         plt.imshow(img)
         plt.savefig('src.jpg')
         plt.show()
