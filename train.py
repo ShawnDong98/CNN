@@ -7,7 +7,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch import optim
-
 from torch.utils.data import DataLoader
 
 from torchvision import transforms
@@ -410,9 +409,10 @@ class FeatureTrainer_LeNet():
             total += label.size(0)
             correct += (predicted == label).sum()
 
+        
         accuracy = 100 * correct / total
 
-        print(f"accuracy: {accuracy}%")
+        # print(f"accuracy: {accuracy}%")
 
         return accuracy
 
