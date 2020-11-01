@@ -150,7 +150,8 @@ class trainer():
             data = data.to(device)
             # print(data.shape)
             label = label.to(device)
-            output = self.net(data)
+            with torch.no_grad():
+                output = self.net(data)
 
             # print(output)
 
