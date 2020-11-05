@@ -1,3 +1,8 @@
+import sys
+import os
+path = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(path)
+
 import torch
 
 from torchvision import datasets
@@ -18,7 +23,7 @@ def get_config():
     parser.add_argument('--total_iter', type=int, default=500000)
     parser.add_argument('--epochs', type=int, default=100)
 
-    parser.add_argument('--img_path', type=str, default='../datasets/FlowerImage/')
+    parser.add_argument('--img_path', type=str, default='/home/shawn/ST/Shawn/CNN/datasets/FlowerImage/')
 
 
 
@@ -371,6 +376,63 @@ def AlexSplit_loss_accuracy():
     plt.show()
 
 
+def plot_loss_accuracy(filename, savefile):
+
+    trainset = datasets.ImageFolder(
+        root = os.path.join(config.img_path, "train"),
+    )
+
+    testset = datasets.ImageFolder(
+        root = os.path.join(config.img_path, "test"),
+    )
+
+
+    state = torch.load(filename)
+
+    train_loss = [x / len(trainset) for x in state['train_loss']]
+    test_loss =  [x / len(testset) for x in state['test_loss']]
+
+
+    train_accuracy = [x / 100 for x in state['train_accuracy']]
+    test_accuracy = [x / 100 for x in state['test_accuracy']]
+
+    # print(train_accuracy)
+
+    x = range(0, len(train_loss))
+    label = [0.80] * len(train_loss)
+    label1 = [max(test_accuracy)] * len(test_accuracy)
+
+    plt.figure(figsize=(20, 10))
+
+    ax1 = plt.subplot(121)
+    # ax1.set_ylim(0, 1)
+    ax1.plot(x, train_loss, label="train_loss")
+    ax1.plot(x, test_loss,  label="test_loss")
+    ax1.legend()
+    ax1.set_xlabel('epoch')
+    ax1.set_ylabel('loss')
+
+
+    ax2 = plt.subplot(122)
+    ax2.set_ylim(0, 1)
+    ax2.plot(x, train_accuracy,  label="train_accuracy")
+    ax2.plot(x, test_accuracy, label="test_accuracy")
+    ax2.plot(x, label, '--', label="0.8")
+    ax2.plot(x, label1, '--', label="best_acc: " + str(max(test_accuracy)))
+    ax2.legend(loc='lower right')
+    ax2.set_xlabel('epoch')
+    ax2.set_ylabel('accuracy')
+
+    plt.savefig(savefile)
+    # plt.show()
+
+
+
+
+
+
+
+
 
 
 
@@ -381,4 +443,5 @@ if __name__ == "__main__":
     # model = "LeNet"
     # SameLR(lr, model)
     # SameBS(bs, model)
-    AlexSplit_loss_accuracy()
+    # AlexSplit_loss_accuracy()
+    plot_loss_accuracy("../saved_models/VGGNet/bs256_lr00412_vgg11_State.pth")
