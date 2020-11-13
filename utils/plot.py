@@ -376,16 +376,7 @@ def AlexSplit_loss_accuracy():
     plt.show()
 
 
-def plot_loss_accuracy(filename, savefile):
-
-    trainset = datasets.ImageFolder(
-        root = os.path.join(config.img_path, "train"),
-    )
-
-    testset = datasets.ImageFolder(
-        root = os.path.join(config.img_path, "test"),
-    )
-
+def plot_loss_accuracy(filename, savefile, trainset, testset):
 
     state = torch.load(filename)
 
