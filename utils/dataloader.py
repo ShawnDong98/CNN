@@ -61,11 +61,16 @@ class Dataset(Dataset):
         if self.scale_mode == 'multi_crop':
             img = multi_crop(img)
 
+        if self.scale_mode == 'multi_crop_Inception':
+            img = multi_crop_Inception(img)
+
         if self.scale_mode == 'multi_scale':
             img = multi_scale(img, self.src_size)
 
         if self.scale_mode == 'multi_scale_jitter':
             img = multi_scale_jitter(img, 256, 512)
+
+       
         
         if self.trans:
             # print(self.trans)

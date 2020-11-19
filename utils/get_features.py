@@ -21,7 +21,6 @@ from networks.LeNet import FeatureLeNet
 from util import *
 
 
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class get_features():
@@ -49,6 +48,7 @@ class get_features():
         self.net = FeatureLeNet().to(device)
         self.net.load_state_dict(torch.load("../saved_models/LeNet/bs20_lr004_FeatureLeNet_CIFAR10.pth"))
         self.net.eval()
+        
 
     def viz(self, module, input, output):
         # print(output.shape)
@@ -61,6 +61,7 @@ class get_features():
             plt.imshow(x[i])
         plt.savefig("../plots/LeNet/features/"+str(min_num)+".jpg")
         plt.show()
+
 
     def run(self):
         for name, m in self.net.named_modules():
@@ -84,6 +85,7 @@ class get_features():
         plt.show()
         with torch.no_grad():
             self.net(data)
+
 
 
 if __name__ == "__main__":

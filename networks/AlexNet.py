@@ -392,21 +392,7 @@ class AlexNet_Split(nn.Module):
             out5 = self.Model5(out41, out42)
 
             return out5
-
-        
-
-
-
-
-
-    
-
-
-
-
-
-
-
+ 
 
 
 if __name__ == "__main__":

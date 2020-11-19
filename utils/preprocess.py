@@ -141,6 +141,52 @@ def multi_crop(img):
     return crops
 
 
+def multi_crop_Inception(image):
+    trans = transforms.Compose(
+        [
+            transforms.Resize([224, 224]),
+            transforms.ToTensor(),
+            transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
+        ]
+    )
+
+    dest_size=224
+    Q_size = [256,288,320,352]
+    images = []
+    for size in Q_size:
+        temp_image = image.resize((size,size))
+        for i in range(3):
+            temp_image_first = temp_image.crop((max(0,i*size//3-74),0,min((i+1)*size//3+74,size),size))
+            temp_image_first = temp_image_first.resize((size,size)) 
+            for j in range(6):
+                #left_top
+                if j == 0:
+                    temp_image_two = temp_image_first.crop((0,0,dest_size,dest_size))
+                #right_top
+                if j == 1:
+                    temp_image_two = temp_image_first.crop((size-dest_size,0,size,dest_size))
+                #left_bottom
+                if j == 2:
+                    temp_image_two = temp_image_first.crop((0,size-dest_size,dest_size,size))
+                #right_bottom
+                if j == 3:
+                    temp_image_two = temp_image_first.crop((size-dest_size,size-dest_size,size,size))
+                # center
+                if j == 4:
+                    temp_image_two = temp_image_first.crop((size//2-dest_size//2,size//2-dest_size//2,size//2+dest_size//2,size//2+dest_size//2))
+                if j == 5:
+                    temp_image_two = temp_image_first.resize((dest_size,dest_size))
+                for p in range(2):
+                    if p == 0 :
+                        temp_image_three = trans(temp_image_two)
+                        images.append(temp_image_three)
+                    else:
+                        temp_image_three = temp_image_two.transpose(Image.FLIP_LEFT_RIGHT)
+                        images.append(trans(temp_image_three))
+
+    return images
+
+
 
     
 
