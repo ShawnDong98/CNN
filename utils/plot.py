@@ -7,7 +7,7 @@ import torch
 
 from torchvision import datasets
 
-
+import numpy as np
 import matplotlib.pyplot as plt
 
 import argparse
@@ -376,12 +376,78 @@ def AlexSplit_loss_accuracy():
     plt.show()
 
 
+def PlainNet_ResNet_accuracy():
+    state_20 = torch.load("../saved_models/ResNet/bs128_lr00412_plain_net_20_State.pth")
+    state_32 = torch.load("../saved_models/ResNet/bs128_lr00412_plain_net_32_State.pth")
+    state_44 = torch.load("../saved_models/ResNet/bs128_lr00412_plain_net_44_State.pth")
+    state_56 = torch.load("../saved_models/ResNet/bs128_lr00412_plain_net_56_State.pth")
+    state_110 = torch.load("../saved_models/ResNet/bs128_lr00412_plain_net_110_State.pth")
+
+    state_20_res = torch.load("../saved_models/ResNet/bs128_lr00412_resnet_CIFAR_20_State.pth")
+    state_32_res = torch.load("../saved_models/ResNet/bs128_lr00412_resnet_CIFAR_32_State.pth")
+    state_44_res = torch.load("../saved_models/ResNet/bs128_lr00412_resnet_CIFAR_44_State.pth")
+    state_56_res = torch.load("../saved_models/ResNet/bs128_lr00412_resnet_CIFAR_56_State.pth")
+    state_110_res = torch.load("../saved_models/ResNet/bs128_lr00412_resnet_CIFAR_110_State.pth")
+
+    train_accuracy_20 = [x / 100 for x in state_20['train_accuracy']]
+    train_accuracy_32 = [x / 100 for x in state_32['train_accuracy']]
+    train_accuracy_44 = [x / 100 for x in state_44['train_accuracy']]
+    train_accuracy_56 = [x / 100 for x in state_56['train_accuracy']]
+    train_accuracy_110 = [x / 100 for x in state_110['train_accuracy']]
+
+    test_accuracy_20 = [x / 100 for x in state_20['test_accuracy']]
+    test_accuracy_32 = [x / 100 for x in state_32['test_accuracy']]
+    test_accuracy_44 = [x / 100 for x in state_44['test_accuracy']]
+    test_accuracy_56 = [x / 100 for x in state_56['test_accuracy']]
+    test_accuracy_110 = [x / 100 for x in state_110['test_accuracy']]
+
+    res_train_accuracy_20 = [x / 100 for x in state_20_res['train_accuracy']]
+    res_train_accuracy_32 = [x / 100 for x in state_32_res['train_accuracy']]
+    res_train_accuracy_44 = [x / 100 for x in state_44_res['train_accuracy']]
+    res_train_accuracy_56 = [x / 100 for x in state_56_res['train_accuracy']]
+    res_train_accuracy_110 = [x / 100 for x in state_110_res['train_accuracy']]
+
+    x = range(0, len(train_accuracy_20))
+
+    plt.figure(figsize=(20, 10))
+
+    ax1 = plt.subplot(121)
+    ax1.set_ylim(0, 1)
+    ax1.plot(x, train_accuracy_20, label="layers20")
+    ax1.plot(x, train_accuracy_32, label="layers32")
+    ax1.plot(x, train_accuracy_44, label="layers44")
+    ax1.plot(x, train_accuracy_56, label="layers56")
+    ax1.plot(x, train_accuracy_110, label="layers110")
+    ax1.legend(loc='upper right')
+    ax1.set_xlabel('epoch')
+    ax1.set_ylabel('train accuracy')
+    ax1.set_title(f"Plain Net")
+
+    ax2 = plt.subplot(122)
+    ax2.set_ylim(0, 1)
+    ax2.plot(x, res_train_accuracy_20, label="layers20")
+    ax2.plot(x, res_train_accuracy_32, label="layers32")
+    ax2.plot(x, res_train_accuracy_44, label="layers44")
+    ax2.plot(x, res_train_accuracy_56, label="layers56")
+    ax2.plot(x, res_train_accuracy_110, label="layers110")
+    ax2.legend(loc='upper right')
+    ax2.set_xlabel('epoch')
+    ax2.set_ylabel('train accuracy')
+    ax2.set_title(f"ResNet")
+
+    plt.savefig("../plots/ResNet/losses/PlainNet&ResNet.jpg")
+    plt.show()
+
+
+
 def plot_loss_accuracy(filename, savefile, trainset, testset):
 
     state = torch.load(filename)
 
     train_loss = [x / len(trainset) for x in state['train_loss']]
+    train_loss = np.clip(train_loss, 0, 0.1)
     test_loss =  [x / len(testset) for x in state['test_loss']]
+    test_loss = np.clip(test_loss, 0, 0.1)
 
 
     train_accuracy = [x / 100 for x in state['train_accuracy']]
@@ -415,6 +481,7 @@ def plot_loss_accuracy(filename, savefile, trainset, testset):
     ax2.set_ylabel('accuracy')
 
     plt.savefig(savefile)
+    plt.close()
     # plt.show()
 
 
@@ -435,4 +502,8 @@ if __name__ == "__main__":
     # SameLR(lr, model)
     # SameBS(bs, model)
     # AlexSplit_loss_accuracy()
-    plot_loss_accuracy("../saved_models/VGGNet/bs256_lr00412_vgg11_State.pth")
+    # plot_loss_accuracy("../saved_models/VGGNet/bs256_lr00412_vgg11_State.pth")
+    # Plain_Net_loss_accuracy()
+    a  = [1, 2, 3, 4, 5]
+    b = np.clip(a, 0, 3) 
+    print(type(b))
