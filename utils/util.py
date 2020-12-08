@@ -33,21 +33,24 @@ def imshow(tensor, title=None):
     plt.pause(0.001)  # pause a bit so that plots are updated
 
 
-def concat2pic(img_path1, img_path2):
-    img1 = cv2.imread("../plots/LeNet/losses/Linear.jpg")
-    img2 = cv2.imread("../plots/LeNet/losses/LeNet.jpg")
+def concat2pic(img_path1, img_path2, saved_path):
+    img1 = cv2.imread(img_path1)
+    img2 = cv2.imread(img_path2)
 
     print(img1.shape)
     print(img2.shape)
 
-    lr04 = np.concatenate([img1, img2], axis=0)
+    lr04 = np.concatenate([img1, img2], axis=1)
 
     # cv2.imshow("merge", merge)
-    cv2.imwrite("../plots/LeNet/losses/lr04.jpg", lr04)
+    cv2.imwrite(saved_path, lr04)
 
 
 
 
 if __name__ == "__main__":
-    concat2pic()
+    img_path1 = "../plots/DenseNet/losses/bs64_lr1_densenet_L100_k12.jpg"
+    img_path2 = "../plots/DenseNet/losses/bs64_lr1_resnet_CIFAR_110.jpg"
+    saved_path = "../plots/DenseNet/losses/DenseNet_ResNet_compare.jpg"
+    concat2pic(img_path1, img_path2, saved_path)
         

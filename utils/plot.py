@@ -14,25 +14,6 @@ import argparse
 import os
 
 
-def get_config():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', type=int, default=5)
-    # 没用到
-    parser.add_argument('--img_size', type=int, default=256)
-    # 没用到
-    parser.add_argument('--total_iter', type=int, default=500000)
-    parser.add_argument('--epochs', type=int, default=100)
-
-    parser.add_argument('--img_path', type=str, default='/home/shawn/ST/Shawn/CNN/datasets/FlowerImage/')
-
-
-
-    return parser.parse_args()
-
-
-config = get_config()
-
-
 def SameBS(bs, model):
 
     trainset = datasets.CIFAR10(
@@ -480,6 +461,7 @@ def plot_loss_accuracy(filename, savefile, trainset, testset):
     ax2.set_xlabel('epoch')
     ax2.set_ylabel('accuracy')
 
+    plt.suptitle(filename.split("/")[-1].split('.')[-2])
     plt.savefig(savefile)
     plt.close()
     # plt.show()
@@ -487,6 +469,20 @@ def plot_loss_accuracy(filename, savefile, trainset, testset):
 
 
 
+def get_config():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch_size', type=int, default=64)
+    parser.add_argument('--epochs', type=int, default=300)
+    parser.add_argument('--img_path', type=str, default='../datasets/')
+    # parser.add_argument('--img_path', type=str, default='./datasets/FlowerImage')
+    parser.add_argument('--learning_rate', type=float, default=0.1)
+    parser.add_argument('--model_name', type=str, default='resnet_CIFAR_110')
+    parser.add_argument('--scale_mode', type=str, default='single_scale')
+    parser.add_argument('--aug_mode', type=str, default="")
+    parser.add_argument('--weight_decay', type=float, default=0.0001)
+
+
+    return parser.parse_args()
 
 
 
@@ -504,6 +500,28 @@ if __name__ == "__main__":
     # AlexSplit_loss_accuracy()
     # plot_loss_accuracy("../saved_models/VGGNet/bs256_lr00412_vgg11_State.pth")
     # Plain_Net_loss_accuracy()
-    a  = [1, 2, 3, 4, 5]
-    b = np.clip(a, 0, 3) 
-    print(type(b))
+
+    config = get_config()
+   
+    filename = "../saved_models/ResNet/bs" + str(config.batch_size) + "_lr" + str(config.learning_rate).split('.')[1] + "_" +  str(config.model_name) + "_State" + ".pth"
+
+    saved_path = "../plots/ResNet/losses/bs" + str(config.batch_size) + "_lr" + str(config.learning_rate).split('.')[1] + "_" +  str(config.model_name) + ".jpg"
+
+
+    # CIFAR10
+    trainset = datasets.CIFAR10(
+        root = config.img_path,
+        train=True,
+        download=True,
+    )
+    
+    # CIFAR10
+    testset = datasets.CIFAR10(
+        root = config.img_path,
+        train=False,
+        download=True,
+    )
+
+
+
+    plot_loss_accuracy(filename, saved_path, trainset, testset)
