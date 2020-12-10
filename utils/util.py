@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+from ptflops import get_model_complexity_info
 
 # loader使用torchvision中自带的transforms函数
 loader = transforms.Compose([
@@ -45,6 +46,13 @@ def concat2pic(img_path1, img_path2, saved_path):
     # cv2.imshow("merge", merge)
     cv2.imwrite(saved_path, lr04)
 
+
+def compute_complexity_params(model):
+    macs, params = get_model_complexity_info(model, (3, 224, 224), as_strings=True,
+                                           print_per_layer_stat=False, verbose=True)
+
+    print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
+    print('{:<30}  {:<8}'.format('Number of parameters: ', params))
 
 
 
